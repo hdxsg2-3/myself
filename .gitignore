@@ -1,0 +1,12 @@
+# IDE / 工具临时文件
+.edge-profile/
+.shots/
+.workbuddy/
+
+# 系统
+.DS_Store
+Thumbs.db
+
+# 处理脚本和临时素材（可选：如需保留则注释掉下一行）
+extract_resume.py
+resume_text.txt
