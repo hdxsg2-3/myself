@@ -130,6 +130,16 @@
     from { opacity: 0; transform: translate(-50%, 30px); }
     to   { opacity: 1; transform: translate(-50%, 0); }
   }
+  /* 供 left/right 锚定的元素使用：不带 -50%，否则会被拉出视口 */
+  @keyframes fade-up-in {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  /* 供 left:50% 居中的元素使用：保留 -50% 居中位移 */
+  @keyframes hint-in {
+    from { opacity: 0; transform: translateX(-50%) translateY(30px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
 
   /* ---- 中央人物视频 ---- */
   .character {
@@ -188,7 +198,7 @@
     z-index: 20; display: flex; flex-wrap: wrap; gap: 12px;
     max-width: calc(100% - clamp(40px, 10vw, 112px));
     opacity: 0;
-    animation: title-in 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) 1.4s forwards;
+    animation: fade-up-in 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) 1.4s forwards;
   }
   .pill {
     display: inline-flex; align-items: center; gap: 8px;
@@ -206,7 +216,7 @@
     position: absolute; bottom: 24px; left: clamp(20px, 5vw, 56px);
     z-index: 20; font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase;
     color: rgba(255,255,255,0.55); font-weight: 500;
-    opacity: 0; animation: title-in 0.9s ease-out 1.6s forwards;
+    opacity: 0; animation: fade-up-in 0.9s ease-out 1.6s forwards;
   }
   .corner-mark .dot {
     display: inline-block; width: 6px; height: 6px; border-radius: 50%;
@@ -217,7 +227,7 @@
     z-index: 20; display: flex; gap: 18px;
     font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase;
     color: rgba(255,255,255,0.55); font-weight: 500;
-    opacity: 0; animation: title-in 0.9s ease-out 1.6s forwards;
+    opacity: 0; animation: fade-up-in 0.9s ease-out 1.6s forwards;
   }
   .socials a { color: rgba(255,255,255,0.55); text-decoration: none; transition: color .25s; }
   .socials a:hover { color: #fff; }
@@ -225,7 +235,7 @@
     position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
     z-index: 20; font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
     color: rgba(255,255,255,0.55); text-align: center;
-    opacity: 0; animation: title-in 0.9s ease-out 1.8s forwards;
+    opacity: 0; animation: hint-in 0.9s ease-out 1.8s forwards;
   }
   .scroll-hint .arrow { display: block; margin-top: 6px; animation: bounce 1.6s infinite; }
   @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
@@ -286,6 +296,7 @@
   .about-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: clamp(40px, 7vw, 100px); align-items: start; }
   .about-side { display: flex; justify-content: flex-end; align-items: flex-start; min-height: 100%;padding-top: 10px;}
   .about-lede {
+    position: relative; z-index: 2; /* 抬到人物视频之上，避免窄屏被压住 */
     font-size: clamp(20px, 2.2vw, 30px);
     line-height: 1.7;
     font-weight: 500;
@@ -683,7 +694,7 @@
     .profile-info .value { font-size: 13px; }
     .about-grid { grid-template-columns: 1fr; gap: 40px; }
     .about-side { justify-content: center; }
-    .about-character { width: clamp(170px, 26vw, 230px); }
+    .about-character { width: clamp(170px, 26vw, 230px); margin-top: -40px; }
     .edu-card { grid-template-columns: 1fr; gap: 12px; }
     .works-list { grid-template-columns: 1fr 1fr; }
     .work-item:nth-child(1), .work-item:nth-child(2), .work-item:nth-child(3) { transform: none; }
@@ -714,7 +725,7 @@
     .pill { padding: 9px 16px; font-size: 12px; }
     .corner-mark, .socials, .scroll-hint { display: none; }
     .about-side { justify-content: center; }
-    .about-character { width: clamp(160px, 44vw, 210px); }
+    .about-character { width: clamp(160px, 44vw, 210px); margin-top: -20px; }
     .works-list { grid-template-columns: 1fr; }
     .work-item { transform: none; }
     .work-item:hover { transform: translateY(-6px); }
@@ -767,9 +778,9 @@
     <div class="profile-line" aria-hidden="true"></div>
     <div class="profile-info">
       <div class="row"><span class="label">姓名</span><span class="value">黄丹璇</span></div>
-      <div class="row"><span class="label">电话</span><span class="value">13434755451</span></div>
+      <div class="row"><span class="label">电话</span><span class="value">1992540467</span></div>
       <div class="row"><span class="label">地址</span><span class="value">广东深圳</span></div>
-      <div class="row"><span class="label">职位</span><span class="value">前端页面工程师</span></div>
+      
     </div>
   </aside>
 
@@ -831,7 +842,7 @@
           <span class="tag">鸿蒙高级开发者认证</span>
         </div>
         <div class="edu-courses">
-          <span>Web 前端开发</span><span>Java 程序设计</span><span>Python</span><span>数据库与 MySQL</span><span>Vue.js 框架</span><span>计算机网络</span><span>接口测试与调试</span><span>移动应用后端开发</span>
+          <span>Web 前端开发</span><span>Java 程序设计</span><span>Python</span><span>数据库与 MySQL</span><span>Vue.js 框架</span><span>班助</span><span>比赛</span><span>导购</span>
         </div>
       </div>
     </div>
@@ -851,7 +862,7 @@
         <div class="work-idx" aria-hidden="true">01</div>
         <div>
           <h3 class="work-name">游戏化课程答题互动网页</h3>
-          <div class="work-meta">课堂项目 · 2024.09 – 2024.12</div>
+          <div class="work-meta">校内实践 · 2024.10 – 2025.06</div>
           <div class="work-stack">
             <span class="tag">Vue3</span><span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">JavaScript</span><span class="tag">AI 接口</span>
           </div>
@@ -868,7 +879,7 @@
         <div class="work-idx" aria-hidden="true">02</div>
         <div>
           <h3 class="work-name">智能校园移动端应用</h3>
-          <div class="work-meta">师生合作 · 2025.02 – 2025.04</div>
+          <div class="work-meta">课堂项目 · 2024.09 – 2024.12</div>
           <div class="work-stack">
             <span class="tag">Vue3</span><span class="tag">ArkUI</span><span class="tag">鸿蒙</span><span class="tag">组件化</span>
           </div>
@@ -885,7 +896,7 @@
         <div class="work-idx" aria-hidden="true">03</div>
         <div>
           <h3 class="work-name">教师助教 · 课程辅导</h3>
-          <div class="work-meta">校内实践 · 2024.10 – 2025.06</div>
+          <div class="work-meta">师生合作 · 2025.02 – 2025.04</div>
           <div class="work-stack">
             <span class="tag">课后答疑</span><span class="tag">作业批改</span><span class="tag">实验辅导</span><span class="tag">教学设计</span>
           </div>
@@ -983,7 +994,7 @@
       <div class="hobbies-cards" id="hobbiesCards" aria-live="polite">
         <article class="hobby-card">
           <div class="hobby-thumb">
-            <img src="assets/images/hobbies/food.jpg" alt="美食" loading="lazy">
+            <img src="assets/images/hobbies/fd.jpg" alt="美食" loading="lazy">
           </div>
           <div class="hobby-body">
             <span class="hobby-tag">美食</span>
@@ -993,7 +1004,7 @@
         </article>
         <article class="hobby-card">
           <div class="hobby-thumb">
-            <img src="assets/images/hobbies/badminton.jpg" alt="羽毛球" loading="lazy">
+            <img src="assets/images/hobbies/bad.jpg" alt="羽毛球" loading="lazy">
           </div>
           <div class="hobby-body">
             <span class="hobby-tag">运动</span>
@@ -1072,10 +1083,10 @@
     </header>
     <div class="contact-grid">
       <div class="contact-main" data-reveal style="--d:.1s">
-        <a class="contact-phone" href="tel:13434755451">134-3475-5451</a>
+        <a class="contact-phone" href="tel:19925400467">199-2540-0467</a>
         <div class="contact-row">
           <span class="tag">广东深圳</span>
-          <span class="tag">前端页面工程师</span>
+          <span class="tag">岗位均可</span>
           <span class="tag">可远程 · 可到岗</span>
         </div>
         <p class="contact-note">看完你有什么感受，可点击留言告诉我把！</p>
